@@ -24,28 +24,24 @@ public class Wordle {
 
     // Simple helper: check if letter c appears anywhere in secret (true), otherwise
     // return false.
-    public static int containsChar(String secret, char c, int j) {
-		if ( secret.charAt(j) == c){
-                return 100;
-            }
-        for (int i = 0; i < secret.length(); i++) {
-            if ( secret.charAt(i) == c){
-                return i;
-            }
-                
+    public static int containsChar(String secret, char c) { // **FIXED: Removed int j**
+    for (int i = 0; i < secret.length(); i++) {
+        if (secret.charAt(i) == c) {
+            return i; // Found it at index i
         }
-        return -1;
     }
+    return -1; // Not found
+}
     
 
     // Compute feedback for a single guess into resultRow.
     // G for exact match, Y if letter appears anywhere else, _ otherwise.
     public static void computeFeedback(String secret, String guess, char[] resultRow) {
 		for (int i = 0; i < secret.length(); i++) {
-                if ( containsChar(secret, guess.charAt(i), i)==-1){
+                if ( containsChar(secret, guess.charAt(i))==-1){
                     resultRow[i]= '_';
                 }else{
-                    if ( containsChar(secret, guess.charAt(i),i)==100){
+                    if ( containsChar(secret, guess.charAt(i))==i){
                     resultRow[i]= 'G';
                     }else{
                         resultRow[i]= 'Y'; 
