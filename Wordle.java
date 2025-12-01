@@ -147,6 +147,10 @@ public class Wordle {
             }
 
             attempt++;
+            if (!won) {
+            System.out.println("You ran out of attempts!");
+            System.out.println("The secret word was: " + secret);
+        }
         }
 
         inp.close();
