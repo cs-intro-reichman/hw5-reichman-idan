@@ -24,31 +24,34 @@ public class Wordle {
 
     // Simple helper: check if letter c appears anywhere in secret (true), otherwise
     // return false.
-    public static int containsChar(String secret, char c) { // **FIXED: Removed int j**
+    public static boolean containsChar(String secret, char c) { 
     for (int i = 0; i < secret.length(); i++) {
         if (secret.charAt(i) == c) {
-            return i; // Found it at index i
+            return true; // Found the character
         }
     }
-    return -1; // Not found
+    return false; // Character not found in the secret word
 }
     
 
     // Compute feedback for a single guess into resultRow.
     // G for exact match, Y if letter appears anywhere else, _ otherwise.
     public static void computeFeedback(String secret, String guess, char[] resultRow) {
-		for (int i = 0; i < secret.length(); i++) {
-                if ( containsChar(secret, guess.charAt(i))==-1){
-                    resultRow[i]= '_';
-                }else{
-                    if ( containsChar(secret, guess.charAt(i))==i){
-                    resultRow[i]= 'G';
-                    }else{
-                        resultRow[i]= 'Y'; 
-                    }
-                }    
-            }
+    for (int i = 0; i < secret.length(); i++) {
+        // 1. Check Green (Exact Match)
+        if (guess.charAt(i) == secret.charAt(i)) {
+            resultRow[i] = 'G';
         }
+        // 2. Check Yellow (Exists, but not here)
+        else if (containsChar(secret, guess.charAt(i))) { // <-- Now checks for TRUE/FALSE
+            resultRow[i] = 'Y';
+        }
+        // 3. Check Gray (Doesn't exist)
+        else {
+            resultRow[i] = '_';
+        }
+    }
+}
 
     // Store guess string (chars) into the given row of guesses 2D array.
     // For example, of guess is HELLO, and row is 2, then after this function 
